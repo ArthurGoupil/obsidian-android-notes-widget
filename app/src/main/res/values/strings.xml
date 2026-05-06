@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Obsidian Widget</string>
+    <string name="widget_description">Display notes with a specific tag from your Obsidian vault</string>
+    <string name="vault_folder_label">Vault Folder</string>
+    <string name="select_folder">Select Folder</string>
+    <string name="vault_name_label">Vault Name (as shown in Obsidian)</string>
+    <string name="vault_name_hint">e.g. MyVault</string>
+    <string name="save">Save</string>
+    <string name="select_tag">Select Tag</string>
+    <string name="select_tag_description">Choose which tag to display in the widget</string>
+    <string name="confirm">Add Widget</string>
+    <string name="refresh">Refresh</string>
+    <string name="no_notes">No notes found</string>
+    <string name="no_folder_selected">No folder selected</string>
+    <string name="config_no_vault">Please open the app first and select your vault folder.</string>
+    <string name="config_no_tags">No tags found in your vault. Make sure your notes have tags in their frontmatter properties.</string>
+    <string name="please_select_tag">Please select a tag</string>
+</resources>
