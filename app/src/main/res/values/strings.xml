@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Obsidian Widget</string>
-    <string name="widget_description">Display notes with a specific tag from your Obsidian vault</string>
+    <string name="app_name">Shard</string>
+    <string name="widget_description">Display Obsidian notes with a specific tag, right from your home screen</string>
     <string name="vault_folder_label">Vault Folder</string>
     <string name="select_folder">Select Folder</string>
     <string name="vault_name_label">Vault Name (as shown in Obsidian)</string>
