@@ -29,6 +29,15 @@ Inspired by the UpNote widget.
 
 ## Installation
 
+### Download pre-built APK (easiest)
+
+1. Go to the [Releases page](https://github.com/ArthurGoupil/obsidian-android-notes-widget/releases/latest)
+2. Download `app-debug.apk`
+3. On your Android device, enable **Install unknown apps** for your browser or file manager
+4. Open the APK to install
+
+### Build from source
+
 This app is not published on the Play Store. You need to build it yourself:
 
 ### Prerequisites
