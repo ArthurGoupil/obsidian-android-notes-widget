@@ -1,12 +1,10 @@
-# Shard — Obsidian Notes Widget for Android
+# Obsidian Notes Widget for Android
 
 > **⚠️ AI-GENERATED CODE — All code in this repository has been entirely written by AI (GitHub Copilot / Claude). It was built through iterative prompting with no manual code authoring. Use at your own discretion.**
 
 ---
 
-**Shard** is an Android home screen widget that displays a filtered list of your [Obsidian](https://obsidian.md) notes by tag, with one-tap to open directly in Obsidian.
-
-*A shard of your vault, always at hand.*
+An Android home screen widget that displays a filtered list of your [Obsidian](https://obsidian.md) notes by tag, with one-tap to open directly in Obsidian.
 
 Inspired by the UpNote widget.
 
@@ -48,7 +46,7 @@ adb install app/build/outputs/apk/debug/app-debug.apk
 
 ## Setup
 
-1. **Open the app** — tap the "Shard" launcher icon
+1. **Open the app** — tap the "Obsidian Notes Widget" launcher icon
 2. **Select your vault folder** — tap "Select Folder" and pick the parent folder that contains your vault (i.e. the folder *containing* your vault folder, not the vault itself)
 3. **Enter your vault name** — type the exact name of your vault folder (must match the folder name on disk precisely)
 4. Tap **Save**
