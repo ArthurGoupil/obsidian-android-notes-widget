@@ -11,6 +11,12 @@ data class Note(
     val relativePath: String
 )
 
+/** Strip "vaultName/" prefix from a path if present (handles wrong parent-folder selection). */
+fun String.stripVaultPrefix(vaultName: String): String {
+    val prefix = "$vaultName/"
+    return if (startsWith(prefix, ignoreCase = true)) removePrefix(prefix) else this
+}
+
 class NoteScanner(private val context: Context) {
 
     fun getNotesWithTag(vaultUri: Uri, tag: String): List<Note> {
@@ -18,7 +24,50 @@ class NoteScanner(private val context: Context) {
         val treeDocId = DocumentsContract.getTreeDocumentId(vaultUri)
         val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(vaultUri, treeDocId)
         scanDir(vaultUri, childrenUri, "", tag, notes)
-        return notes.sortedBy { it.title.lowercase() }
+        return notes.distinctBy { it.relativePath }.sortedBy { it.title.lowercase() }
+    }
+
+    fun getAllNotes(vaultUri: Uri): List<Note> {
+        val notes = mutableListOf<Note>()
+        val treeDocId = DocumentsContract.getTreeDocumentId(vaultUri)
+        val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(vaultUri, treeDocId)
+        collectAllNotes(vaultUri, childrenUri, "", notes)
+        return notes.distinctBy { it.relativePath }.sortedBy { it.title.lowercase() }
+    }
+
+    private fun collectAllNotes(treeUri: Uri, dirUri: Uri, currentPath: String, notes: MutableList<Note>) {
+        val cursor = try {
+            context.contentResolver.query(
+                dirUri,
+                arrayOf(
+                    DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                    DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+                    DocumentsContract.Document.COLUMN_MIME_TYPE
+                ),
+                null, null, null
+            ) ?: return
+        } catch (_: SecurityException) { return }
+        catch (_: IllegalArgumentException) { return }
+
+        cursor.use {
+            while (it.moveToNext()) {
+                try {
+                    val docId = it.getString(0) ?: continue
+                    val name = it.getString(1) ?: continue
+                    val mimeType = it.getString(2) ?: ""
+
+                    if (mimeType == DocumentsContract.Document.MIME_TYPE_DIR) {
+                        val childUri = DocumentsContract.buildChildDocumentsUriUsingTree(treeUri, docId)
+                        val childPath = if (currentPath.isEmpty()) name else "$currentPath/$name"
+                        collectAllNotes(treeUri, childUri, childPath, notes)
+                    } else if (name.endsWith(".md")) {
+                        val title = name.removeSuffix(".md")
+                        val relativePath = if (currentPath.isEmpty()) name else "$currentPath/$name"
+                        notes.add(Note(title, relativePath))
+                    }
+                } catch (_: Exception) {}
+            }
+        }
     }
 
     fun getAllTags(vaultUri: Uri): List<String> {
@@ -45,16 +94,20 @@ class NoteScanner(private val context: Context) {
 
         cursor.use {
             while (it.moveToNext()) {
-                val docId = it.getString(0)
-                val name = it.getString(1)
-                val mimeType = it.getString(2)
+                try {
+                    val docId = it.getString(0) ?: continue
+                    val name = it.getString(1) ?: continue
+                    val mimeType = it.getString(2) ?: ""
 
-                if (mimeType == DocumentsContract.Document.MIME_TYPE_DIR) {
-                    val childUri = DocumentsContract.buildChildDocumentsUriUsingTree(treeUri, docId)
-                    collectTagsFromDir(treeUri, childUri, tags)
-                } else if (name.endsWith(".md")) {
-                    val docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, docId)
-                    tags.addAll(readTagsFromFile(docUri))
+                    if (mimeType == DocumentsContract.Document.MIME_TYPE_DIR) {
+                        val childUri = DocumentsContract.buildChildDocumentsUriUsingTree(treeUri, docId)
+                        collectTagsFromDir(treeUri, childUri, tags)
+                    } else if (name.endsWith(".md")) {
+                        val docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, docId)
+                        tags.addAll(readTagsFromFile(docUri))
+                    }
+                } catch (_: Exception) {
+                    // Skip problematic entries
                 }
             }
         }
@@ -82,22 +135,26 @@ class NoteScanner(private val context: Context) {
 
         cursor.use {
             while (it.moveToNext()) {
-                val docId = it.getString(0)
-                val name = it.getString(1)
-                val mimeType = it.getString(2)
+                try {
+                    val docId = it.getString(0) ?: continue
+                    val name = it.getString(1) ?: continue
+                    val mimeType = it.getString(2) ?: ""
 
-                if (mimeType == DocumentsContract.Document.MIME_TYPE_DIR) {
-                    val childUri = DocumentsContract.buildChildDocumentsUriUsingTree(treeUri, docId)
-                    val childPath = if (currentPath.isEmpty()) name else "$currentPath/$name"
-                    scanDir(treeUri, childUri, childPath, tag, notes)
-                } else if (name.endsWith(".md")) {
-                    val docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, docId)
-                    val fileTags = readTagsFromFile(docUri)
-                    if (fileTags.any { t -> t.equals(tag, ignoreCase = true) }) {
-                        val title = name.removeSuffix(".md")
-                        val relativePath = if (currentPath.isEmpty()) title else "$currentPath/$title"
-                        notes.add(Note(title, relativePath))
+                    if (mimeType == DocumentsContract.Document.MIME_TYPE_DIR) {
+                        val childUri = DocumentsContract.buildChildDocumentsUriUsingTree(treeUri, docId)
+                        val childPath = if (currentPath.isEmpty()) name else "$currentPath/$name"
+                        scanDir(treeUri, childUri, childPath, tag, notes)
+                    } else if (name.endsWith(".md")) {
+                        val docUri = DocumentsContract.buildDocumentUriUsingTree(treeUri, docId)
+                        val fileTags = readTagsFromFile(docUri)
+                        if (fileTags.any { t -> t.equals(tag, ignoreCase = true) }) {
+                            val title = name.removeSuffix(".md")
+                            val relativePath = if (currentPath.isEmpty()) name else "$currentPath/$name"
+                            notes.add(Note(title, relativePath))
+                        }
                     }
+                } catch (_: Exception) {
+                    // Skip problematic entries
                 }
             }
         }

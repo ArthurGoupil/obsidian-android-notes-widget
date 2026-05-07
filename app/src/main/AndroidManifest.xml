@@ -25,6 +25,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".SearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ObsidianWidget" />
+
         <receiver
             android:name=".WidgetProvider"
             android:exported="true">

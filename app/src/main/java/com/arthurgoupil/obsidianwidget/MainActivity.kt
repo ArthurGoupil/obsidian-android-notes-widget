@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
@@ -35,6 +36,13 @@ class MainActivity : AppCompatActivity() {
         folderPathText = findViewById(R.id.folder_path_text)
         vaultNameEdit = findViewById(R.id.vault_name_edit)
 
+        // Check if stored URI permission was revoked (e.g. after reinstall)
+        val storedUri = prefs.vaultUri
+        if (storedUri != null && !hasUriPermission(storedUri)) {
+            prefs.vaultUri = null
+            Toast.makeText(this, getString(R.string.permission_revoked), Toast.LENGTH_LONG).show()
+        }
+
         findViewById<Button>(R.id.select_folder_button).setOnClickListener {
             folderPicker.launch(null)
         }
@@ -48,6 +56,12 @@ class MainActivity : AppCompatActivity() {
         vaultNameEdit.setText(prefs.vaultName)
     }
 
+    private fun hasUriPermission(uri: Uri): Boolean {
+        return contentResolver.persistedUriPermissions.any {
+            it.uri == uri && it.isReadPermission
+        }
+    }
+
     private fun updateFolderDisplay() {
         val uri = prefs.vaultUri
         folderPathText.text = if (uri != null) {
@@ -57,3 +71,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+

@@ -11,9 +11,17 @@
     <string name="select_tag_description">Choose which tag to display in the widget</string>
     <string name="confirm">Add Widget</string>
     <string name="refresh">Refresh</string>
+    <string name="search">Search notes</string>
+    <string name="open_obsidian">Open Obsidian</string>
+    <string name="search_hint">Search notes by title…</string>
+    <string name="search_prompt">Type to search your vault</string>
+    <string name="close">Close</string>
+    <string name="loading_notes">Loading notes…</string>
     <string name="no_notes">No notes found</string>
     <string name="no_folder_selected">No folder selected</string>
+    <string name="permission_revoked">Vault access was reset after reinstall. Please select your vault folder again.</string>
     <string name="config_no_vault">Please open the app first and select your vault folder.</string>
     <string name="config_no_tags">No tags found in your vault. Make sure your notes have tags in their frontmatter properties.</string>
     <string name="please_select_tag">Please select a tag</string>
+    <string name="loading_tags">Scanning vault for tags…</string>
 </resources>
