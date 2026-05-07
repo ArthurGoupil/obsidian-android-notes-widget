@@ -29,23 +29,12 @@ Inspired by the UpNote widget.
 
 ## Installation
 
-### Download pre-built APK (easiest)
+1. Go to the [Releases page](https://github.com/ArthurGoupil/obsidian-android-notes-widget/releases/latest) and download `app-debug.apk`
+2. On your Android device, open the downloaded file — you'll be prompted to allow installation from unknown sources, which is normal for apps not distributed via the Play Store
+3. Follow the on-screen instructions to install
 
-1. Go to the [Releases page](https://github.com/ArthurGoupil/obsidian-android-notes-widget/releases/latest)
-2. Download `app-debug.apk`
-3. On your Android device, enable **Install unknown apps** for your browser or file manager
-4. Open the APK to install
-
-### Build from source
-
-This app is not published on the Play Store. You need to build it yourself:
-
-### Prerequisites
-
-- [Android Studio](https://developer.android.com/studio) or the Android SDK with Gradle
-- A device with USB debugging enabled, or an emulator
-
-### Build & Install
+<details>
+<summary>Build from source</summary>
 
 ```bash
 git clone https://github.com/ArthurGoupil/obsidian-android-notes-widget.git
@@ -53,6 +42,9 @@ cd obsidian-android-notes-widget
 ./gradlew assembleDebug
 adb install app/build/outputs/apk/debug/app-debug.apk
 ```
+
+Requires Android Studio or the Android SDK with Gradle.
+</details>
 
 ## Setup
 
