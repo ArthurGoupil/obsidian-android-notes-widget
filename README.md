@@ -1,4 +1,4 @@
-# Obsidian Notes Widget for Android
+# Obsidian Android Notes Widget
 
 > **⚠️ AI-GENERATED CODE — All code in this repository has been entirely written by AI (GitHub Copilot / Claude). It was built through iterative prompting with no manual code authoring. Use at your own discretion.**
 
@@ -8,17 +8,18 @@ An Android home screen widget that displays a filtered list of your [Obsidian](h
 
 Inspired by the UpNote widget.
 
+## Screenshots
+
+![Widget home screen](screenshots/widget_home.png)
+![Widget search](screenshots/widget_search.png)
+
 ## Features
 
 - 📋 Displays notes filtered by a specific tag
 - 🔍 Search across all your notes from the widget header
 - 📂 Tap any note title to open it directly in Obsidian
-- 🔄 Refresh button to reload notes on demand
+- �� Refresh button to reload notes on demand
 - 🌙 Dark theme matching Obsidian's visual style
-
-## Screenshots
-
-> *(Add your own screenshots here)*
 
 ## Requirements
 
@@ -38,8 +39,8 @@ This app is not published on the Play Store. You need to build it yourself:
 ### Build & Install
 
 ```bash
-git clone https://github.com/ArthurGoupil/obsidian-widget.git
-cd obsidian-widget
+git clone https://github.com/ArthurGoupil/obsidian-android-notes-widget.git
+cd obsidian-android-notes-widget
 ./gradlew assembleDebug
 adb install app/build/outputs/apk/debug/app-debug.apk
 ```
