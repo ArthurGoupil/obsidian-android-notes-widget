@@ -10,8 +10,7 @@ Inspired by the UpNote widget.
 
 ## Screenshots
 
-![Widget home screen](screenshots/widget_home.png)
-![Widget search](screenshots/widget_search.png)
+ <img src="https://github.com/user-attachments/assets/7d07655a-dad1-409d-a3fc-a7410d227852" width="270">  <img src="https://github.com/user-attachments/assets/a6375278-3293-408e-aa3e-0a6dbfb2171a" width="270">  <img src="https://github.com/user-attachments/assets/17c3d04b-57f6-43b6-abd2-783295f75f92" width="270"> 
 
 ## Features
 
